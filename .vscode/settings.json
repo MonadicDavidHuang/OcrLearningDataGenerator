@@ -2,7 +2,7 @@
     "python.pythonPath": "~/.pyenv/versions/dev/bin/python",
     "[python]": {
         "editor.codeActionsOnSave": {
-            "source.organizeImports": true
+            "source.organizeImports": false
         }
     },
     "python.linting.pylintEnabled": true,

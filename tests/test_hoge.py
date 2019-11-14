@@ -1,13 +1,17 @@
+"""coding: utf-8"""
+
 import unittest
 
+
 class TestHoge(unittest.TestCase):
-    """test class of keisan.py
+    """Test class of Hoge.
     """
 
-    def test_hoge(self):
-        """test method for tashizan
+    def test(self):
+        """Test.
         """
         self.assertEqual(10, 10)
+
 
 if __name__ == "__main__":
     unittest.main()

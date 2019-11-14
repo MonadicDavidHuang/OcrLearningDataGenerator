@@ -1,7 +1,9 @@
+"""coding: utf-8"""
+
 from setuptools import setup
 
 with open('requirements.txt') as requirements_file:
-    install_requirements = requirements_file.read().splitlines()
+    INSTALL_REQUIREMENTS = requirements_file.read().splitlines()
 
 setup(
     name='ocr-learning-data-generator',
@@ -14,11 +16,11 @@ setup(
 
     url='https://github.com/MonadicDavidHuang/OCR-learning-data-generator',
 
-    install_requires=install_requirements,
+    install_requires=INSTALL_REQUIREMENTS,
 
     entry_points={
         'console_scripts': [
-            'oreore = ocr_learning_data_generator.app:main'
+            'ocrldg = ocr_learning_data_generator.app:main'
         ]
     }
 )
