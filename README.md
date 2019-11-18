@@ -19,6 +19,8 @@ When set up is done, the command `ocrldg` is able under your environment.
 ocrldg --number 65535 --sampling_size 100 --image_width 120
 ```
 
+The generated images are under `root_of_repository/output`.
+
 For further detail, see
 ```
 [OcrLearningDataGenerator]>>=ocrldg --help
