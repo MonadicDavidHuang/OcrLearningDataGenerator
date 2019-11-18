@@ -32,7 +32,7 @@ class OCRLearningDataGeneraotr:
                 self.digit_to_max_size[k] = \
                     max(self.digit_to_max_size[k], tuple(arr.shape)[1])
 
-    def __caculate_available_max_row_size(self, number, max_spacing):
+    def _caculate_available_max_row_size(self, number, max_spacing):
         return max_spacing * (len(number) - 1) \
             + sum([self.digit_to_max_size[d] for d in map(int, number)])
 
@@ -64,7 +64,7 @@ class OCRLearningDataGeneraotr:
             )
 
         avalable_max_row_size = \
-            self.__caculate_available_max_row_size(number, max_spacing)
+            self._caculate_available_max_row_size(number, max_spacing)
 
         if avalable_max_row_size > image_width:
             raise ValueError(
@@ -110,7 +110,7 @@ def _padding(image, image_width):
     return image
 
 
-def __crop_center(image, crop_width, crop_height):
+def _crop_center(image, crop_width, crop_height):
     image_width, image_height = image.size
     return image.crop(((image_width - crop_width) // 2,
                        (image_height - crop_height) // 2,
@@ -118,29 +118,29 @@ def __crop_center(image, crop_width, crop_height):
                        (image_height + crop_height) // 2))
 
 
-def __rotate_randomly(image, args):
+def _rotate_randomly(image, args):
     max_rotation = args.max_rotation
     degree = random.randint(min(-1 * max_rotation, max_rotation),
                             max(-1 * max_rotation, max_rotation)) % 360
 
     image = image.rotate(degree, expand=True)
 
-    return __crop_center(image, args.image_width, COLUMN_SIZE)
+    return _crop_center(image, args.image_width, COLUMN_SIZE)
 
 
-def __augmentate(array_list, args):
+def _augmentate(array_list, args):
     image_list = map(lambda a: Image.fromarray(a).convert('P'), array_list)
 
     if args.max_rotation != 0:
         image_list = map(
-            lambda image: __rotate_randomly(image, args),
+            lambda image: _rotate_randomly(image, args),
             image_list
         )
 
     return list(image_list)
 
 
-def __validate_arguments(args):
+def _validate_arguments(args):
     digits = set(range(0, 10))  # [0, 10)
 
     if args.min_spacing > args.max_spacing:
@@ -187,7 +187,7 @@ def main():
     args = PARSER.parse_args()
 
     try:
-        __validate_arguments(args)
+        _validate_arguments(args)
     except ValueError as value_error:
         print(value_error)
         sys.exit(0)
@@ -212,6 +212,6 @@ def main():
 
         image_list.append(image)
 
-    image_list = __augmentate(image_list, args)
+    image_list = _augmentate(image_list, args)
 
     save_images(image_list, inner_directory_name=args.number)
