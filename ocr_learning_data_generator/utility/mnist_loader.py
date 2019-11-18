@@ -26,7 +26,7 @@ IMAGE_DIM = (1, 28, 28)
 IMAGE_SIZE = 784
 
 
-def __download(file_name):
+def _download(file_name):
     file_path = DATASET_DIR + "/" + file_name
 
     if os.path.exists(file_path):
@@ -40,12 +40,12 @@ def __download(file_name):
     print("Done")
 
 
-def __download_mnist():
+def _download_mnist():
     for value in KEY_FILE.values():
-        __download(value)
+        _download(value)
 
 
-def __load_label(file_name):
+def _load_label(file_name):
     file_path = DATASET_DIR + "/" + file_name
 
     print("Converting " + file_name + " to NumPy Array ...")
@@ -56,7 +56,7 @@ def __load_label(file_name):
     return labels
 
 
-def __load_image(file_name):
+def _load_image(file_name):
     file_path = DATASET_DIR + "/" + file_name
 
     print("Converting " + file_name + " to NumPy Array ...")
@@ -68,13 +68,13 @@ def __load_image(file_name):
     return data
 
 
-def __convert_to_numpy():
+def _convert_to_numpy():
     dataset = {}
 
-    dataset['train_img'] = __load_image(KEY_FILE['train_img'])
-    dataset['train_label'] = __load_label(KEY_FILE['train_label'])
-    dataset['test_img'] = __load_image(KEY_FILE['test_img'])
-    dataset['test_label'] = __load_label(KEY_FILE['test_label'])
+    dataset['train_img'] = _load_image(KEY_FILE['train_img'])
+    dataset['train_label'] = _load_label(KEY_FILE['train_label'])
+    dataset['test_img'] = _load_image(KEY_FILE['test_img'])
+    dataset['test_label'] = _load_label(KEY_FILE['test_label'])
 
     return dataset
 
@@ -86,8 +86,8 @@ def init_mnist():
     if not os.path.exists(DATASET_DIR):
         os.mkdir(DATASET_DIR)
 
-    __download_mnist()
-    dataset = __convert_to_numpy()
+    _download_mnist()
+    dataset = _convert_to_numpy()
 
     print("Creating pickle file ...")
     with open(SAVE_FILE, 'wb') as out_file:
@@ -95,7 +95,7 @@ def init_mnist():
     print("Done!")
 
 
-def __change_one_hot_label(labels):
+def _change_one_hot_label(labels):
     onehot_labels = np.zeros((labels.size, 10))
 
     for idx, row in enumerate(onehot_labels):
@@ -127,8 +127,8 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False):
             dataset[key] /= 255.0
 
     if one_hot_label:
-        dataset['train_label'] = __change_one_hot_label(dataset['train_label'])
-        dataset['test_label'] = __change_one_hot_label(dataset['test_label'])
+        dataset['train_label'] = _change_one_hot_label(dataset['train_label'])
+        dataset['test_label'] = _change_one_hot_label(dataset['test_label'])
 
     if not flatten:
         for key in ('train_img', 'test_img'):

@@ -24,14 +24,14 @@ def save_images(image_list, inner_directory_name='images', file_suffix_name='ima
     for index, image in enumerate(image_list):
         cur_file_name = str(index) + file_suffix_name
         file_path = OUTPUT_DIR_NAME + '/' + inner_directory_name + '/' + cur_file_name
-        __save_image(
+        _save_image(
             image,
             directory_path=directory_path,
             file_path=file_path
         )
 
 
-def __save_image(image, directory_path, file_path):
+def _save_image(image, directory_path, file_path):
     if not os.path.exists(directory_path):
         os.makedirs(directory_path)
 
