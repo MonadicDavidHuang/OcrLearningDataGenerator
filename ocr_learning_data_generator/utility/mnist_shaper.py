@@ -16,7 +16,7 @@ ROW_SIZE = 28
 COLUMN_SIZE = 28
 
 
-def __make_white_edgeless_mnist_dictionary():
+def _make_white_edgeless_mnist_dictionary():
     """Load MNIST dataset and convert to dict of digit => [numpy.ndarray] for latter usage.
 
     Returns:
@@ -31,7 +31,7 @@ def __make_white_edgeless_mnist_dictionary():
         sys.stdout.write(str('\r') + str(i + 1) + '/' + str(len(train_label)))
         sys.stdout.flush()
 
-        image_without_white_edges = __cut_white_edges(train_img[i, 0])
+        image_without_white_edges = _cut_white_edges(train_img[i, 0])
         if not label in ret:
             ret[label] = [image_without_white_edges]
         else:
@@ -43,7 +43,7 @@ def __make_white_edgeless_mnist_dictionary():
         sys.stdout.write(str('\r') + str(i + 1) + '/' + str(len(test_label)))
         sys.stdout.flush()
 
-        image_without_white_edges = __cut_white_edges(test_img[i, 0])
+        image_without_white_edges = _cut_white_edges(test_img[i, 0])
 
         if not label in ret:
             ret[label] = [image_without_white_edges]
@@ -54,7 +54,7 @@ def __make_white_edgeless_mnist_dictionary():
     return ret
 
 
-def __cut_white_edges(image):
+def _cut_white_edges(image):
     """Cut white space from both edges.
     Arguments:
         image {numpy.ndarray} -- with shape of (28, 28), indicates image measured by row
@@ -67,13 +67,13 @@ def __cut_white_edges(image):
     """
     left = 0
     for i in range(ROW_SIZE):
-        if __contains_no_zero_at(i, image):
+        if _contains_no_zero_at(i, image):
             left = i
             break
 
     right = ROW_SIZE - 1
     for i in range(ROW_SIZE - 1, -1, -1):
-        if __contains_no_zero_at(i, image):
+        if _contains_no_zero_at(i, image):
             right = i
             break
 
@@ -83,7 +83,7 @@ def __cut_white_edges(image):
     return image[:, left:right]
 
 
-def __contains_no_zero_at(column, image):
+def _contains_no_zero_at(column, image):
     for i in range(COLUMN_SIZE):
         if abs(image[i][column]) >= np.float(1e-5):
             return True
@@ -97,7 +97,7 @@ def load_white_edgeless_mnist_dictionary():
         dict -- dict of int => [numpy.ndarray]
     """
     if not os.path.exists(SAVE_DIR):
-        white_edgeless_mnist_dictionary = __make_white_edgeless_mnist_dictionary()
+        white_edgeless_mnist_dictionary = _make_white_edgeless_mnist_dictionary()
 
         print("Creating pickle file ...")
         with open(SAVE_DIR, 'wb') as out_file:
